@@ -1,342 +1,689 @@
 <!DOCTYPE html>
-<!-- saved from url=(0078)file:///C:/Users/atusi/src/creating-visual-explainers/output/sawyer-intro.html -->
-<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="googlebot" content="noindex, nofollow">
-  <meta property="og:title" content="ソーヤーの自己紹介">
-  <meta property="og:description" content="介護業界で4事業所の管理者。トヨタから就労支援を経て、人と向き合う仕事を続けるソーヤーのプロフィールを図解します。">
-  <meta property="og:type" content="article">
-  <title>ソーヤーの自己紹介</title>
-  <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;rect width=&#39;100&#39; height=&#39;100&#39; rx=&#39;20&#39; fill=&#39;%23FFFFFF&#39;/&gt;&lt;rect x=&#39;8&#39; y=&#39;8&#39; width=&#39;84&#39; height=&#39;84&#39; rx=&#39;14&#39; fill=&#39;none&#39; stroke=&#39;%233B82F6&#39; stroke-width=&#39;4&#39;/&gt;&lt;circle cx=&#39;32&#39; cy=&#39;40&#39; r=&#39;10&#39; fill=&#39;%233B82F6&#39; opacity=&#39;0.8&#39;/&gt;&lt;circle cx=&#39;68&#39; cy=&#39;40&#39; r=&#39;10&#39; fill=&#39;%2360A5FA&#39; opacity=&#39;0.8&#39;/&gt;&lt;rect x=&#39;25&#39; y=&#39;62&#39; width=&#39;50&#39; height=&#39;6&#39; rx=&#39;3&#39; fill=&#39;%2394A3B8&#39; opacity=&#39;0.6&#39;/&gt;&lt;rect x=&#39;30&#39; y=&#39;74&#39; width=&#39;40&#39; height=&#39;6&#39; rx=&#39;3&#39; fill=&#39;%2394A3B8&#39; opacity=&#39;0.3&#39;/&gt;&lt;/svg&gt;">
-  <link rel="preconnect" href="https://fonts.googleapis.com/">
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-  <link href="./ソーヤーの自己紹介_files/css2" rel="stylesheet">
-  <script src="./ソーヤーの自己紹介_files/saved_resource"></script>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>自動報告ツール</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif; }
+    .todo-card { background: #fff7ed; }
+    .shimmer {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    /* フォーカスリング（アクセシビリティ対応） */
+    button:focus-visible { outline: 2px solid #f97316; outline-offset: 2px; }
+    input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 2px solid #f97316; outline-offset: 0;
+    }
+    input, textarea, select { outline: none; }
+
+    /* コピートースト */
+    .copy-toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #1f2937; color: white; padding: 10px 20px; border-radius: 9999px;
+      font-size: 14px; z-index: 9999; opacity: 0; transition: opacity 0.3s;
+      pointer-events: none; white-space: nowrap;
+    }
+    .copy-toast.show { opacity: 1; }
+
+    /* マイクボタン */
+    .mic-btn { transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+    .mic-btn.recording {
+      animation: mic-pulse 1.2s ease-in-out infinite;
+      background-color: #ef4444 !important;
+      border-color: #fca5a5 !important;
+    }
+    @keyframes mic-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+      50%      { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
+    }
+
+    /* 音声波形 */
+    .voice-wave { display:flex; align-items:center; gap:3px; height:20px; }
+    .voice-wave span {
+      display:inline-block; width:3px; background:#ef4444;
+      border-radius:9999px; animation:wave 0.8s ease-in-out infinite;
+    }
+    .voice-wave span:nth-child(1){animation-delay:0s;   height:8px}
+    .voice-wave span:nth-child(2){animation-delay:0.1s; height:16px}
+    .voice-wave span:nth-child(3){animation-delay:0.2s; height:12px}
+    .voice-wave span:nth-child(4){animation-delay:0.3s; height:18px}
+    .voice-wave span:nth-child(5){animation-delay:0.4s; height:10px}
+    @keyframes wave {
+      0%,100% { transform:scaleY(0.5); }
+      50%      { transform:scaleY(1.2); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <div class="max-w-xl mx-auto px-4 py-6 space-y-4">
+
+    <!-- ヘッダー -->
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+        <i data-lucide="clipboard-list" class="text-orange-500" style="width:22px;height:22px"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h1 class="text-xl font-bold text-gray-900">自動報告ツール</h1>
+        <p class="text-xs text-gray-400">話すだけでToDoと報告文を自動生成</p>
+      </div>
+      <!-- タップ領域 44px確保 -->
+      <button id="settingsBtn" aria-label="設定を開く"
+        class="w-11 h-11 rounded-xl bg-white border border-gray-200 flex items-center justify-center active:bg-gray-100 transition-colors flex-shrink-0">
+        <i data-lucide="settings" class="text-gray-400" style="width:20px;height:20px"></i>
+      </button>
+    </div>
+
+    <!-- ① 初回オンボーディング（APIキー未設定時） -->
+    <div id="onboardingBanner" class="hidden bg-orange-50 border border-orange-200 rounded-2xl p-4">
+      <div class="flex items-start gap-3">
+        <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+          <i data-lucide="key" class="text-white" style="width:16px;height:16px"></i>
+        </div>
+        <div class="flex-1">
+          <p class="text-sm font-bold text-orange-800 mb-1">はじめに設定が必要です</p>
+          <p class="text-xs text-orange-700 mb-3">OpenAI APIキーを設定すると報告文が生成されます。</p>
+          <button id="onboardingSetupBtn"
+            class="w-full py-2.5 bg-orange-500 text-white text-sm font-semibold rounded-xl active:bg-orange-600 transition-colors">
+            設定する（30秒）
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 設定パネル -->
+    <div id="settingsPanel" class="hidden bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
+      <p class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+        <i data-lucide="key" style="width:15px;height:15px"></i> API設定
+      </p>
+      <div>
+        <label for="apiKey" class="text-xs text-gray-500 mb-1.5 block">OpenAI APIキー</label>
+        <input id="apiKey" type="password" placeholder="sk-..."
+          class="w-full text-sm border border-gray-200 rounded-xl px-3 py-3 bg-gray-50 focus:bg-white focus:border-orange-300 transition-colors" />
+        <p class="text-xs text-gray-400 mt-1.5">キーは端末内のみ保存。外部への送信はOpenAI APIのみです。</p>
+      </div>
+      <div>
+        <label for="modelSelect" class="text-xs text-gray-500 mb-1.5 block">モデル</label>
+        <select id="modelSelect" class="w-full text-sm border border-gray-200 rounded-xl px-3 py-3 bg-gray-50">
+          <option value="gpt-4o-mini">GPT-4o mini（高速・低コスト）</option>
+          <option value="gpt-4o">GPT-4o（高精度）</option>
+        </select>
+      </div>
+      <button id="saveSettings"
+        class="w-full py-3 bg-orange-500 text-white text-sm font-semibold rounded-xl active:bg-orange-600 transition-colors">
+        保存する
+      </button>
+    </div>
+
+    <!-- ② 音声入力エリア -->
+    <div class="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
+
+      <!-- LINEブラウザ警告 -->
+      <div id="lineWarning" class="hidden bg-blue-50 border border-blue-200 rounded-xl px-3 py-3">
+        <p class="text-xs text-blue-800 font-semibold mb-1">LINEアプリ内で開いています</p>
+        <p class="text-xs text-blue-700 mb-2.5">音声入力はSafari（iPhone）またはChrome（Android）で使えます。</p>
+        <button id="openExternalBtn"
+          class="w-full py-2.5 bg-blue-500 text-white text-sm font-semibold rounded-xl active:bg-blue-600 transition-colors flex items-center justify-center gap-2">
+          <i data-lucide="external-link" style="width:15px;height:15px"></i>
+          <span id="openExternalLabel">外部ブラウザで開く</span>
+        </button>
+      </div>
+
+      <!-- 音声非対応警告 -->
+      <div id="noSpeechWarning" class="hidden bg-amber-50 border border-amber-200 rounded-xl px-3 py-3 flex items-start gap-2">
+        <i data-lucide="alert-triangle" class="text-amber-500 flex-shrink-0 mt-0.5" style="width:16px;height:16px"></i>
+        <p class="text-xs text-amber-700">このブラウザは音声入力に対応していません。<br>テキスト入力からご利用ください。</p>
+      </div>
+
+      <!-- マイクボタン -->
+      <div class="flex flex-col items-center gap-3 py-2">
+        <button id="micBtn" aria-label="音声入力を開始"
+          class="mic-btn w-20 h-20 rounded-full bg-orange-500 text-white flex items-center justify-center border-4 border-orange-100">
+          <i data-lucide="mic" style="width:32px;height:32px"></i>
+        </button>
+        <div id="micStatus">
+          <p class="text-sm text-gray-500">タップして話す</p>
+        </div>
+        <div id="voiceWave" class="voice-wave hidden" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex-1 h-px bg-gray-100"></div>
+        <span class="text-xs text-gray-300">または</span>
+        <div class="flex-1 h-px bg-gray-100"></div>
+      </div>
+
+      <!-- テキスト入力（補助） -->
+      <div>
+        <label for="inputText" class="text-xs text-gray-400 mb-2 flex items-center gap-1.5">
+          <i data-lucide="pencil" style="width:12px;height:12px"></i> テキストで入力
+        </label>
+        <textarea id="inputText" rows="4"
+          placeholder="例：田中様の入浴介助は14時まで。佐藤様に夕薬を17時に投与。夜勤前に記録を必ず入力。"
+          class="w-full text-base text-gray-800 border border-gray-100 rounded-xl px-3 py-3 bg-gray-50 focus:bg-white focus:border-orange-300 resize-none transition-colors leading-relaxed">
+        </textarea>
+        <div class="flex items-center justify-between mt-2">
+          <span class="text-xs text-gray-400" id="charCount">0 文字</span>
+          <!-- タップ領域 44px確保 -->
+          <button id="clearBtn" aria-label="入力内容をクリア"
+            class="h-11 px-3 text-xs text-gray-400 active:text-gray-700 flex items-center gap-1 transition-colors">
+            <i data-lucide="x" style="width:13px;height:13px"></i> クリア
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ 生成ボタン -->
+    <button id="generateBtn"
+      class="w-full py-4 bg-orange-500 text-white text-lg font-bold rounded-2xl flex items-center justify-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed active:bg-orange-600 transition-colors"
+      style="letter-spacing:0.03em;">
+      <i data-lucide="zap" style="width:22px;height:22px"></i>
+      <span id="btnLabel">生成する</span>
+    </button>
+
+    <!-- ローディング（スケルトン） -->
+    <div id="loadingArea" class="hidden space-y-4">
+      <div class="todo-card rounded-2xl border-2 border-orange-100 p-4 space-y-3">
+        <div class="h-5 shimmer rounded-lg w-2/3"></div>
+        <div class="h-4 shimmer rounded-lg w-full"></div>
+        <div class="h-4 shimmer rounded-lg w-4/5"></div>
+        <div class="h-4 shimmer rounded-lg w-3/4"></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
+        <div class="h-5 shimmer rounded-lg w-1/2"></div>
+        <div class="h-4 shimmer rounded-lg w-full"></div>
+        <div class="h-4 shimmer rounded-lg w-full"></div>
+        <div class="h-4 shimmer rounded-lg w-5/6"></div>
+        <div class="h-4 shimmer rounded-lg w-4/5"></div>
+      </div>
+    </div>
+
+    <!-- 生成結果エリア -->
+    <div id="resultArea" class="hidden space-y-4">
+
+      <!-- ④ 本日中の重要ToDo -->
+      <div class="todo-card rounded-2xl border-2 border-orange-200 p-4 space-y-3">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+            <i data-lucide="alert-circle" class="text-white" style="width:16px;height:16px"></i>
+          </div>
+          <span class="font-bold text-orange-700 text-base">本日中の重要ToDo</span>
+          <span class="ml-auto text-xs bg-red-100 text-red-600 font-bold px-2 py-1 rounded-full">要対応</span>
+        </div>
+        <div id="todoContent" class="space-y-2.5"></div>
+        <button onclick="copyText('todo')"
+          class="w-full py-3 bg-orange-500 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-orange-600 transition-colors">
+          <i data-lucide="copy" style="width:15px;height:15px"></i> ToDoをコピー
+        </button>
+      </div>
+
+      <!-- ⑤ 職員向け完成文 -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
+            <i data-lucide="message-square" class="text-white" style="width:16px;height:16px"></i>
+          </div>
+          <span class="font-bold text-gray-800 text-base">職員向け完成文</span>
+          <span class="ml-auto text-xs bg-blue-50 text-blue-600 font-medium px-2 py-1 rounded-full">LINEで送信</span>
+        </div>
+        <div id="messageContent"
+          class="text-sm text-gray-700 bg-gray-50 rounded-xl p-3 leading-relaxed whitespace-pre-wrap min-h-24 border border-gray-100">
+        </div>
+
+        <!-- ⑥ コピー操作 -->
+        <div class="space-y-2">
+          <button onclick="copyText('message')"
+            class="w-full py-3 bg-blue-500 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-blue-600 transition-colors">
+            <i data-lucide="copy" style="width:14px;height:14px"></i> 完成文をコピー
+          </button>
+          <button onclick="copyText('all')"
+            class="w-full py-3 bg-gray-700 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-gray-800 transition-colors">
+            <i data-lucide="clipboard-copy" style="width:14px;height:14px"></i> ToDo＋完成文を全コピー
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="text-center text-xs text-gray-300 pb-4">自動報告ツール v2.1</p>
+  </div>
+
+  <!-- コピートースト -->
+  <div id="copyToast" class="copy-toast" role="status" aria-live="polite"></div>
+
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ads: {
-              bg: '#FFFFFF',
-              surface: '#F8FAFC',
-              hover: '#F1F5F9',
-              border: '#E2E8F0',
-              accent: '#3B82F6',
-              'accent-light': '#2563EB',
-              text: '#1E293B',
-              muted: '#64748B',
-              dim: '#94A3B8',
-              positive: '#10B981',
-              negative: '#EF4444',
-              warning: '#F59E0B',
-            }
-          },
-          fontFamily: {
-            sans: ['"Noto Sans JP"', '"Hiragino Sans"', '"Hiragino Kaku Gothic ProN"', '"Yu Gothic UI"', '"Meiryo"', 'sans-serif'],
+    lucide.createIcons();
+
+    // ---- 設定の読み込み ----
+    const getApiKey = () => document.getElementById('apiKey').value.trim() || localStorage.getItem('reportToolApiKey') || '';
+    const getModel  = () => document.getElementById('modelSelect').value || localStorage.getItem('reportToolModel') || 'gpt-4o-mini';
+
+    const savedKey = localStorage.getItem('reportToolApiKey');
+    if (savedKey) document.getElementById('apiKey').value = savedKey;
+    const savedModel = localStorage.getItem('reportToolModel');
+    if (savedModel) document.getElementById('modelSelect').value = savedModel;
+
+    // APIキー未設定時のオンボーディングバナー
+    if (!savedKey) {
+      document.getElementById('onboardingBanner').classList.remove('hidden');
+    }
+
+    document.getElementById('settingsBtn').addEventListener('click', () => {
+      document.getElementById('settingsPanel').classList.toggle('hidden');
+      document.getElementById('onboardingBanner').classList.add('hidden');
+    });
+    document.getElementById('onboardingSetupBtn')?.addEventListener('click', () => {
+      document.getElementById('onboardingBanner').classList.add('hidden');
+      document.getElementById('settingsPanel').classList.remove('hidden');
+    });
+    document.getElementById('saveSettings').addEventListener('click', () => {
+      const key = document.getElementById('apiKey').value.trim();
+      localStorage.setItem('reportToolApiKey', key);
+      localStorage.setItem('reportToolModel', document.getElementById('modelSelect').value);
+      document.getElementById('settingsPanel').classList.add('hidden');
+      document.getElementById('onboardingBanner').classList.add('hidden');
+      showToast('設定を保存しました');
+    });
+
+    // ---- テキスト入力 ----
+    document.getElementById('inputText').addEventListener('input', function () {
+      document.getElementById('charCount').textContent = this.value.length + ' 文字';
+    });
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      document.getElementById('inputText').value = '';
+      document.getElementById('charCount').textContent = '0 文字';
+      document.getElementById('resultArea').classList.add('hidden');
+      document.getElementById('micStatus').innerHTML = '<p class="text-sm text-gray-500">タップして話す</p>';
+    });
+
+    // ---- 環境検出 ----
+    const ua = navigator.userAgent;
+    const isLineApp = /Line\//i.test(ua);
+    const isIOS     = /iPhone|iPad|iPod/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+
+    // LINEブラウザ検出 → 外部ブラウザ誘導
+    if (isLineApp) {
+      document.getElementById('lineWarning').classList.remove('hidden');
+      const label = document.getElementById('openExternalLabel');
+      if (isIOS) label.textContent = 'Safariで開く';
+      else label.textContent = 'Chromeで開く';
+
+      document.getElementById('openExternalBtn').addEventListener('click', () => {
+        const currentUrl = location.href;
+        if (isIOS) {
+          // iOSのLINEブラウザ：URLの末尾に特殊パラメータ付与でSafariに渡す
+          const sep = currentUrl.includes('?') ? '&' : '?';
+          location.href = currentUrl + sep + 'openInSafari=1';
+        } else {
+          // Android：クリップボードにURLコピー → 案内
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(currentUrl).then(() => {
+              showToast('URLをコピーしました。Chromeで開いてください');
+            }).catch(() => showToast('URLをコピーしてChromeで開いてください：' + currentUrl));
+          } else {
+            showToast('このURLをChromeで開いてください');
           }
+        }
+      });
+    }
+
+    // ---- 音声入力 ----
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isRecording  = false;
+    let manualStop   = false; // 手動停止フラグ（onend後の自動生成を防ぐ）
+
+    if (!SpeechRecognition) {
+      document.getElementById('noSpeechWarning').classList.remove('hidden');
+      const micBtn = document.getElementById('micBtn');
+      micBtn.disabled = true;
+      micBtn.setAttribute('aria-disabled', 'true');
+      micBtn.classList.add('opacity-40', 'cursor-not-allowed');
+    } else {
+      recognition = new SpeechRecognition();
+      recognition.lang = 'ja-JP';
+      recognition.continuous = false;
+      recognition.interimResults = true;
+
+      recognition.onstart = () => {
+        isRecording = true;
+        manualStop = false;
+        const btn = document.getElementById('micBtn');
+        btn.classList.add('recording');
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+        document.getElementById('micStatus').innerHTML = '<p class="text-sm text-red-500 font-semibold">録音中… 話してください</p>';
+        document.getElementById('voiceWave').classList.remove('hidden');
+      };
+
+      recognition.onresult = (event) => {
+        let interimText = '';
+        let finalText = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const t = event.results[i][0].transcript;
+          if (event.results[i].isFinal) finalText += t;
+          else interimText += t;
+        }
+        const display = finalText || interimText;
+        document.getElementById('inputText').value = display;
+        document.getElementById('charCount').textContent = display.length + ' 文字';
+        document.getElementById('micStatus').innerHTML =
+          `<p class="text-xs text-gray-500 text-center px-2">${escapeHtml(display.slice(0, 30))}${display.length > 30 ? '…' : ''}</p>`;
+      };
+
+      recognition.onend = () => {
+        isRecording = false;
+        resetMicBtn();
+        const text = document.getElementById('inputText').value.trim();
+        if (text && !manualStop) {
+          document.getElementById('micStatus').innerHTML =
+            '<p class="text-sm text-green-600 font-semibold">認識完了 — 生成中...</p>';
+          setTimeout(generateReport, 400);
+        } else {
+          document.getElementById('micStatus').innerHTML =
+            '<p class="text-sm text-gray-500">タップして話す</p>';
+        }
+      };
+
+      recognition.onerror = (event) => {
+        isRecording = false;
+        manualStop = false;
+        resetMicBtn();
+        const msgs = {
+          'no-speech':   '音声が認識されませんでした。もう一度話してください',
+          'not-allowed': 'マイクの使用を許可してください',
+          'network':     'ネットワークエラーが発生しました',
+          'aborted':     '録音がキャンセルされました',
+        };
+        showToast(msgs[event.error] || '音声認識エラーが発生しました');
+        document.getElementById('micStatus').innerHTML =
+          '<p class="text-sm text-gray-500">タップして話す</p>';
+        document.getElementById('voiceWave').classList.add('hidden');
+      };
+    }
+
+    function resetMicBtn() {
+      const btn = document.getElementById('micBtn');
+      btn.classList.remove('recording');
+      btn.innerHTML = '<i data-lucide="mic" style="width:32px;height:32px"></i>';
+      lucide.createIcons({ nodes: [btn] });
+      document.getElementById('voiceWave').classList.add('hidden');
+    }
+
+    document.getElementById('micBtn').addEventListener('click', () => {
+      if (!recognition) return;
+      if (isRecording) {
+        manualStop = true;
+        recognition.stop();
+      } else {
+        document.getElementById('inputText').value = '';
+        document.getElementById('charCount').textContent = '0 文字';
+        document.getElementById('resultArea').classList.add('hidden');
+        try {
+          recognition.start();
+        } catch (e) {
+          showToast('マイクを起動できませんでした。もう一度タップしてください');
+        }
+      }
+    });
+
+    // ---- 生成ボタン ----
+    document.getElementById('generateBtn').addEventListener('click', generateReport);
+
+    // ---- 生成データ ----
+    let generatedTodo    = '';
+    let generatedMessage = '';
+
+    async function generateReport() {
+      const input  = document.getElementById('inputText').value.trim();
+      if (!input) { showToast('指示内容を入力してください'); return; }
+
+      const apiKey = getApiKey();
+      if (!apiKey) {
+        document.getElementById('onboardingBanner').classList.remove('hidden');
+        document.getElementById('settingsPanel').classList.remove('hidden');
+        showToast('APIキーを設定してください');
+        return;
+      }
+
+      setLoading(true);
+
+      const systemPrompt = `あなたは介護施設の管理者が使う報告文生成AIです。
+管理者が入力した指示・業務内容をもとに、以下を生成してください。
+
+返答は必ず以下のJSON形式のみで返してください（コードブロック不要）：
+{
+  "todo": {
+    "deadline": "本日17:00まで など",
+    "targets": ["田中様", "佐藤様"],
+    "actions": [
+      {"label": "入浴介助", "person": "田中様", "time": "14:00"},
+      {"label": "夕薬投与", "person": "佐藤様", "time": "17:00"}
+    ]
+  },
+  "message": "職員の皆様へ送る完成した連絡文（敬語・丁寧語・改行あり）"
+}
+
+ルール:
+- ToDoは本日中に絶対やるべき最重要事項のみ（最大5件）
+- 完成文の末尾は「よろしくお願いします。」
+- 日本語で出力`;
+
+      try {
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: getModel(),
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user',   content: `以下の指示内容から重要ToDoと完成文を生成してください：\n\n${input}` }
+            ],
+            response_format: { type: 'json_object' },
+            temperature: 0.3,
+            max_tokens: 1200
+          })
+        });
+
+        if (!res.ok) {
+          const errBody = await res.json().catch(() => ({}));
+          throw new Error(errBody.error?.message || `HTTPエラー ${res.status}`);
+        }
+
+        const data   = await res.json();
+        const raw    = data.choices?.[0]?.message?.content;
+        if (!raw) throw new Error('レスポンスが空です');
+
+        let parsed;
+        try {
+          parsed = JSON.parse(raw);
+        } catch {
+          throw new Error('AIの返答を解析できませんでした。もう一度お試しください');
+        }
+
+        if (!parsed.todo || !parsed.message) throw new Error('生成結果が不完全です。もう一度お試しください');
+
+        renderResult(parsed);
+        document.getElementById('micStatus').innerHTML =
+          '<p class="text-sm text-gray-500">タップして話す</p>';
+
+      } catch (e) {
+        setLoading(false);
+        document.getElementById('micStatus').innerHTML =
+          '<p class="text-sm text-gray-500">タップして話す</p>';
+        if (e.message.includes('401') || e.message.includes('Incorrect API key')) {
+          showToast('APIキーが無効です。設定を確認してください');
+          document.getElementById('settingsPanel').classList.remove('hidden');
+        } else if (e.message.includes('429')) {
+          showToast('利用制限に達しました。しばらく待ってから再試行してください');
+        } else {
+          showToast(e.message);
         }
       }
     }
-  </script>
-  <style>
-    @media print {
-      .no-print { display: none !important; }
-      body { border-top: none !important; }
-      .rounded-xl { break-inside: avoid; }
-      .md\:flex-row { flex-direction: row !important; }
-      .md\:hidden { display: none !important; }
-      .hidden.md\:block { display: block !important; }
-      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-      .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-      .md\:mb-20 { margin-bottom: 5rem !important; }
-      .md\:py-16 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
-      .bg-clip-text.text-transparent {
-        -webkit-background-clip: initial !important;
-        background-clip: initial !important;
-        color: #2563EB !important;
-        -webkit-text-fill-color: #2563EB !important;
+
+    function renderResult(data) {
+      const todo    = data.todo;
+      const message = data.message;
+
+      // DOMを作成してinnerHTMLの連結を最小化
+      const container = document.getElementById('todoContent');
+      container.innerHTML = '';
+
+      if (todo.deadline) {
+        container.insertAdjacentHTML('beforeend', `
+          <div class="flex items-start gap-2.5">
+            <div class="w-6 h-6 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i data-lucide="clock" class="text-red-500" style="width:13px;height:13px"></i>
+            </div>
+            <div>
+              <span class="text-xs text-gray-500 block">期限</span>
+              <span class="text-base font-bold text-red-600">${escapeHtml(todo.deadline)}</span>
+            </div>
+          </div>`);
+      }
+
+      if (Array.isArray(todo.targets) && todo.targets.length > 0) {
+        const tagHtml = todo.targets
+          .map(t => `<span class="bg-orange-100 text-orange-700 text-sm font-medium px-2.5 py-1 rounded-full">${escapeHtml(t)}</span>`)
+          .join('');
+        container.insertAdjacentHTML('beforeend', `
+          <div class="flex items-start gap-2.5">
+            <div class="w-6 h-6 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i data-lucide="users" class="text-orange-500" style="width:13px;height:13px"></i>
+            </div>
+            <div>
+              <span class="text-xs text-gray-500 block mb-1.5">対象者</span>
+              <div class="flex flex-wrap gap-1.5">${tagHtml}</div>
+            </div>
+          </div>`);
+      }
+
+      if (Array.isArray(todo.actions) && todo.actions.length > 0) {
+        const actionsHtml = todo.actions.map(a => `
+          <div class="flex items-center gap-2 py-2 border-b border-orange-100 last:border-0">
+            <div class="w-5 h-5 bg-white rounded-md border-2 border-orange-300 flex-shrink-0" role="checkbox" aria-checked="false"></div>
+            <div class="flex-1 min-w-0">
+              <span class="text-sm font-semibold text-gray-800">${escapeHtml(a.label ?? '')}</span>
+              ${a.person ? `<span class="text-xs text-gray-500 ml-1.5">${escapeHtml(a.person)}</span>` : ''}
+            </div>
+            ${a.time ? `<span class="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-lg flex-shrink-0">${escapeHtml(a.time)}</span>` : ''}
+          </div>`).join('');
+        container.insertAdjacentHTML('beforeend', `
+          <div class="flex items-start gap-2.5">
+            <div class="w-6 h-6 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i data-lucide="list-checks" class="text-yellow-600" style="width:13px;height:13px"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <span class="text-xs text-gray-500 block mb-1">実施内容</span>
+              <div>${actionsHtml}</div>
+            </div>
+          </div>`);
+      }
+
+      document.getElementById('messageContent').textContent = message;
+      generatedTodo    = buildTodoText(todo);
+      generatedMessage = message;
+
+      document.getElementById('loadingArea').classList.add('hidden');
+      document.getElementById('resultArea').classList.remove('hidden');
+      setLoading(false, false);
+      lucide.createIcons();
+      setTimeout(() => {
+        document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
+
+    function buildTodoText(todo) {
+      let t = '【本日中の重要ToDo】\n';
+      if (todo.deadline) t += `期限：${todo.deadline}\n`;
+      if (Array.isArray(todo.targets) && todo.targets.length > 0)
+        t += `対象者：${todo.targets.join('、')}\n`;
+      if (Array.isArray(todo.actions) && todo.actions.length > 0) {
+        t += '\n【実施内容】\n';
+        todo.actions.forEach((a, i) => {
+          t += `${i + 1}. ${a.label ?? ''}`;
+          if (a.person) t += `（${a.person}）`;
+          if (a.time)   t += ` → ${a.time}`;
+          t += '\n';
+        });
+      }
+      return t.trim();
+    }
+
+    function copyText(type) {
+      const text = type === 'todo'    ? generatedTodo
+                 : type === 'message' ? generatedMessage
+                 : generatedTodo + '\n\n' + generatedMessage;
+      const labels = {
+        todo:    'ToDoをコピーしました',
+        message: '完成文をコピーしました',
+        all:     'ToDo＋完成文をコピーしました',
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast(labels[type]))
+          .catch(() => fallbackCopy(text, labels[type]));
+      } else {
+        fallbackCopy(text, labels[type]);
       }
     }
-  </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.absolute{position:absolute}.relative{position:relative}.-left-\[29px\]{left:-29px}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-16{margin-bottom:4rem}.mb-2{margin-bottom:0.5rem}.mb-2\.5{margin-bottom:0.625rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mt-0\.5{margin-top:0.125rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-12{height:3rem}.h-14{height:3.5rem}.h-16{height:4rem}.h-3\.5{height:0.875rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-6{height:1.5rem}.h-7{height:1.75rem}.h-8{height:2rem}.w-10{width:2.5rem}.w-12{width:3rem}.w-14{width:3.5rem}.w-16{width:4rem}.w-28{width:7rem}.w-3\.5{width:0.875rem}.w-32{width:8rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-6{width:1.5rem}.w-7{width:1.75rem}.w-8{width:2rem}.max-w-3xl{max-width:48rem}.max-w-lg{max-width:32rem}.max-w-xl{max-width:36rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.space-y-0 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0px * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0px * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-l-2{border-left-width:2px}.border-t{border-top-width:1px}.border-t-4{border-top-width:4px}.border-ads-accent{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.border-ads-accent\/10{border-color:rgb(59 130 246 / 0.1)}.border-ads-accent\/20{border-color:rgb(59 130 246 / 0.2)}.border-ads-accent\/30{border-color:rgb(59 130 246 / 0.3)}.border-ads-border{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-ads-border\/30{border-color:rgb(226 232 240 / 0.3)}.border-ads-border\/50{border-color:rgb(226 232 240 / 0.5)}.border-ads-positive\/20{border-color:rgb(16 185 129 / 0.2)}.border-blue-500\/20{border-color:rgb(59 130 246 / 0.2)}.border-emerald-500\/20{border-color:rgb(16 185 129 / 0.2)}.border-sky-200\/50{border-color:rgb(186 230 253 / 0.5)}.border-sky-500\/20{border-color:rgb(14 165 233 / 0.2)}.border-white{--tw-border-opacity:1;border-color:rgb(255 255 255 / var(--tw-border-opacity, 1))}.bg-ads-accent{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.bg-ads-accent\/10{background-color:rgb(59 130 246 / 0.1)}.bg-ads-accent\/15{background-color:rgb(59 130 246 / 0.15)}.bg-ads-accent\/5{background-color:rgb(59 130 246 / 0.05)}.bg-ads-bg{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-ads-positive\/10{background-color:rgb(16 185 129 / 0.1)}.bg-ads-positive\/5{background-color:rgb(16 185 129 / 0.05)}.bg-ads-surface{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-amber-500\/10{background-color:rgb(245 158 11 / 0.1)}.bg-blue-500{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.bg-blue-500\/10{background-color:rgb(59 130 246 / 0.1)}.bg-blue-500\/5{background-color:rgb(59 130 246 / 0.05)}.bg-cyan-500\/10{background-color:rgb(6 182 212 / 0.1)}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-emerald-500\/10{background-color:rgb(16 185 129 / 0.1)}.bg-emerald-500\/5{background-color:rgb(16 185 129 / 0.05)}.bg-purple-500\/10{background-color:rgb(168 85 247 / 0.1)}.bg-sky-500\/10{background-color:rgb(14 165 233 / 0.1)}.bg-sky-500\/15{background-color:rgb(14 165 233 / 0.15)}.bg-slate-400{--tw-bg-opacity:1;background-color:rgb(148 163 184 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-gradient-to-b{background-image:linear-gradient(to bottom, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-ads-accent\/5{--tw-gradient-from:rgb(59 130 246 / 0.05) var(--tw-gradient-from-position);--tw-gradient-to:rgb(59 130 246 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-blue-600{--tw-gradient-from:#2563eb var(--tw-gradient-from-position);--tw-gradient-to:rgb(37 99 235 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-sky-50{--tw-gradient-from:#f0f9ff var(--tw-gradient-from-position);--tw-gradient-to:rgb(240 249 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-cyan-600{--tw-gradient-to:#0891b2 var(--tw-gradient-to-position)}.to-transparent{--tw-gradient-to:transparent var(--tw-gradient-to-position)}.to-white{--tw-gradient-to:#fff var(--tw-gradient-to-position)}.bg-clip-text{-webkit-background-clip:text;background-clip:text}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.pb-10{padding-bottom:2.5rem}.pb-8{padding-bottom:2rem}.pl-6{padding-left:1.5rem}.pt-2{padding-top:0.5rem}.pt-6{padding-top:1.5rem}.text-center{text-align:center}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-medium{font-weight:500}.leading-relaxed{line-height:1.625}.tracking-tight{letter-spacing:-0.025em}.text-ads-accent{--tw-text-opacity:1;color:rgb(59 130 246 / var(--tw-text-opacity, 1))}.text-ads-accent-light{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-ads-dim{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-ads-muted{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-ads-positive{--tw-text-opacity:1;color:rgb(16 185 129 / var(--tw-text-opacity, 1))}.text-amber-500{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-amber-600{--tw-text-opacity:1;color:rgb(217 119 6 / var(--tw-text-opacity, 1))}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-blue-600\/70{color:rgb(37 99 235 / 0.7)}.text-cyan-500{--tw-text-opacity:1;color:rgb(6 182 212 / var(--tw-text-opacity, 1))}.text-cyan-600{--tw-text-opacity:1;color:rgb(8 145 178 / var(--tw-text-opacity, 1))}.text-emerald-500{--tw-text-opacity:1;color:rgb(16 185 129 / var(--tw-text-opacity, 1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105 / var(--tw-text-opacity, 1))}.text-emerald-600\/70{color:rgb(5 150 105 / 0.7)}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.text-purple-600{--tw-text-opacity:1;color:rgb(147 51 234 / var(--tw-text-opacity, 1))}.text-sky-600{--tw-text-opacity:1;color:rgb(2 132 199 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-transparent{color:transparent}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:text-ads-accent:hover{--tw-text-opacity:1;color:rgb(59 130 246 / var(--tw-text-opacity, 1))}@media (min-width: 768px){.md\:-left-\[33px\]{left:-33px}.md\:col-span-2{grid-column:span 2 / span 2}.md\:mb-10{margin-bottom:2.5rem}.md\:mb-20{margin-bottom:5rem}.md\:block{display:block}.md\:hidden{display:none}.md\:w-12{width:3rem}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:gap-6{gap:1.5rem}.md\:p-10{padding:2.5rem}.md\:p-8{padding:2rem}.md\:py-0{padding-top:0px;padding-bottom:0px}.md\:py-16{padding-top:4rem;padding-bottom:4rem}.md\:pl-8{padding-left:2rem}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-5xl{font-size:3rem;line-height:1}}</style></head>
-<body class="bg-ads-bg text-slate-600 antialiased leading-relaxed border-t-4 border-ads-accent">
-  <div class="no-print max-w-3xl mx-auto px-5 pt-2 flex justify-end">
-    <button onclick="window.print()" class="flex items-center gap-1.5 text-xs text-ads-dim hover:text-ads-accent transition-colors cursor-pointer">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="download" aria-hidden="true" class="lucide lucide-download w-3.5 h-3.5"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
-      PDF
-    </button>
-  </div>
-  <main class="max-w-3xl mx-auto px-5 py-10 md:py-16">
-<!-- CONTENT_START -->
 
-<div class="text-center mb-8 md:mb-10">
-  <div class="inline-flex items-center gap-2 bg-ads-accent/10 text-ads-accent-light px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" class="lucide lucide-user w-4 h-4"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-    自己紹介
-  </div>
-  <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">
-    <span class="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">ソーヤー</span>の自己紹介
-  </h1>
-  <p class="text-lg text-ads-muted max-w-xl mx-auto leading-relaxed">
-    介護業界で4事業所をまとめる管理者。<br>
-    ひとことで言うと ──
-  </p>
-</div>
+    function fallbackCopy(text, toastMsg) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand('copy'); showToast(toastMsg); }
+      catch { showToast('コピーに失敗しました。手動でコピーしてください'); }
+      document.body.removeChild(ta);
+    }
 
-<div class="bg-ads-surface border border-ads-border rounded-2xl p-6 md:p-10 mb-6">
-  <div class="text-center mb-8 md:mb-10">
-    <p class="text-xl md:text-2xl font-black text-slate-900 mb-2">
-      トヨタから就労支援を経て、<span class="text-ads-accent-light">「人と向き合う仕事」</span>を続けている
-    </p>
-    <p class="text-sm text-ads-muted">
-      拠点の4事業所の管理者として、介護の現場を支えています
-    </p>
-  </div>
+    function setLoading(on, showSkeleton = true) {
+      const btn   = document.getElementById('generateBtn');
+      const label = document.getElementById('btnLabel');
+      btn.disabled = on;
+      label.textContent = on ? '生成中...' : '生成する';
+      if (on && showSkeleton) {
+        document.getElementById('loadingArea').classList.remove('hidden');
+        document.getElementById('resultArea').classList.add('hidden');
+      }
+      if (!on) {
+        document.getElementById('loadingArea').classList.add('hidden');
+      }
+    }
 
-  <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 mb-8">
-    <div class="flex flex-col items-center w-28 p-3">
-      <div class="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-2.5">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="building-2" aria-hidden="true" class="lucide lucide-building-2 w-7 h-7 text-blue-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
-      </div>
-      <div class="font-bold text-slate-900 text-sm text-center">トヨタ時代</div>
-      <div class="text-[11px] text-blue-600/70 mt-0.5 text-center">豊田市・寮暮らし</div>
-    </div>
+    function showToast(msg) {
+      const toast = document.getElementById('copyToast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
 
-    <div class="flex items-center justify-center md:w-12 py-1 md:py-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-5 h-5 text-ads-accent hidden md:block"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-down" aria-hidden="true" class="lucide lucide-arrow-down w-5 h-5 text-ads-accent md:hidden"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
-    </div>
-
-    <div class="flex flex-col items-center w-28 p-3">
-      <div class="w-14 h-14 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-2.5">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="heart-handshake" aria-hidden="true" class="lucide lucide-heart-handshake w-7 h-7 text-emerald-600"><path d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762"></path></svg>
-      </div>
-      <div class="font-bold text-slate-900 text-sm text-center">就労支援</div>
-      <div class="text-[11px] text-emerald-600/70 mt-0.5 text-center">ジョブコーチ</div>
-    </div>
-
-    <div class="flex items-center justify-center md:w-12 py-1 md:py-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-5 h-5 text-ads-accent hidden md:block"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-down" aria-hidden="true" class="lucide lucide-arrow-down w-5 h-5 text-ads-accent md:hidden"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
-    </div>
-
-    <div class="flex flex-col items-center w-32 p-4 bg-ads-accent/5 border-2 border-ads-accent/20 rounded-2xl">
-      <div class="w-16 h-16 rounded-2xl bg-ads-accent/15 border-2 border-ads-accent/30 flex items-center justify-center mb-2.5">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" aria-hidden="true" class="lucide lucide-users w-8 h-8 text-ads-accent-light"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
-      </div>
-      <div class="font-bold text-ads-accent-light text-base text-center">介護業界</div>
-      <div class="text-[11px] text-ads-muted mt-0.5 text-center">4事業所の管理者</div>
-    </div>
-  </div>
-
-  <div class="flex items-center gap-4 mb-6">
-    <div class="flex-1 border-t border-ads-border/50"></div>
-    <div class="text-[11px] text-ads-dim font-medium">いまのわたし</div>
-    <div class="flex-1 border-t border-ads-border/50"></div>
-  </div>
-
-  <div class="flex flex-wrap justify-center gap-2 mb-8">
-    <div class="flex items-center gap-1.5 bg-white border border-ads-border rounded-full px-3.5 py-1.5 text-xs text-slate-700">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="message-circle" aria-hidden="true" class="lucide lucide-message-circle w-3.5 h-3.5 text-ads-accent"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg>
-      コミュニケーション
-    </div>
-    <div class="flex items-center gap-1.5 bg-white border border-ads-border rounded-full px-3.5 py-1.5 text-xs text-slate-700">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mountain-snow" aria-hidden="true" class="lucide lucide-mountain-snow w-3.5 h-3.5 text-cyan-500"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path><path d="M4.14 15.08c2.62-1.57 5.24-1.43 7.86.42 2.74 1.94 5.49 2 8.23.19"></path></svg>
-      スノーボード・パウダー
-    </div>
-    <div class="flex items-center gap-1.5 bg-white border border-ads-border rounded-full px-3.5 py-1.5 text-xs text-slate-700">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="sparkles" aria-hidden="true" class="lucide lucide-sparkles w-3.5 h-3.5 text-amber-500"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
-      AIで不得意を自信に
-    </div>
-    <div class="flex items-center gap-1.5 bg-white border border-ads-border rounded-full px-3.5 py-1.5 text-xs text-slate-700">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="graduation-cap" aria-hidden="true" class="lucide lucide-graduation-cap w-3.5 h-3.5 text-emerald-500"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg>
-      AI-Driven School
-    </div>
-  </div>
-</div>
-
-<p class="text-center text-ads-muted mb-16 md:mb-20">
-  ここから、経歴・スキル・趣味・一言をひとつずつ紹介します。
-</p>
-
-<section class="mb-16 md:mb-20">
-  <div class="flex items-center gap-3 mb-8">
-    <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-500/10 flex-shrink-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" class="lucide lucide-user w-5 h-5 text-blue-600"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-    </div>
-    <h2 class="text-xl md:text-2xl font-bold text-slate-900">プロフィール</h2>
-  </div>
-
-  <div class="bg-ads-surface border border-ads-border rounded-xl p-6 md:p-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="flex gap-4">
-        <div class="w-12 h-12 rounded-xl bg-ads-accent/10 flex items-center justify-center flex-shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="badge-check" aria-hidden="true" class="lucide lucide-badge-check w-6 h-6 text-ads-accent-light"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path><path d="m9 12 2 2 4-4"></path></svg>
-        </div>
-        <div>
-          <div class="text-xs text-ads-dim font-medium mb-1">名前</div>
-          <div class="font-bold text-slate-900 text-lg">ソーヤー</div>
-        </div>
-      </div>
-      <div class="flex gap-4">
-        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="building-2" aria-hidden="true" class="lucide lucide-building-2 w-6 h-6 text-emerald-600"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
-        </div>
-        <div>
-          <div class="text-xs text-ads-dim font-medium mb-1">役割・肩書き</div>
-          <div class="font-bold text-slate-900">拠点の4事業所の管理者</div>
-        </div>
-      </div>
-      <div class="flex gap-4 md:col-span-2">
-        <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="heart" aria-hidden="true" class="lucide lucide-heart w-6 h-6 text-amber-600"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"></path></svg>
-        </div>
-        <div>
-          <div class="text-xs text-ads-dim font-medium mb-1">仕事</div>
-          <div class="font-bold text-slate-900">介護業界</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="mb-16 md:mb-20">
-  <div class="flex items-center gap-3 mb-8">
-    <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-500/10 flex-shrink-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="map-pin" aria-hidden="true" class="lucide lucide-map-pin w-5 h-5 text-purple-600"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
-    </div>
-    <h2 class="text-xl md:text-2xl font-bold text-slate-900">経歴</h2>
-  </div>
-
-  <p class="mb-6 leading-relaxed">
-    トヨタ自動車での勤務から、就労支援・ジョブコーチを経て、いまは介護業界で4事業所の管理者をしています。その流れを時系列でまとめました。
-  </p>
-
-  <div class="space-y-0 border-l-2 border-ads-border pl-6 md:pl-8">
-    <div class="relative pb-8">
-      <div class="absolute -left-[29px] md:-left-[33px] w-4 h-4 rounded-full bg-blue-500 border-2 border-white"></div>
-      <div class="bg-blue-500/5 border border-blue-500/20 rounded-xl p-5">
-        <div class="text-xs font-bold text-blue-600 mb-1">トヨタ自動車株式会社</div>
-        <p class="text-sm text-slate-700 leading-relaxed">豊田市に住み、トヨタの寮に入居。トヨタ生協で買い物、車はトヨタ車、病院はトヨタ記念病院、携帯はau。窓の向こうに見えた一軒家の街は、寮を出て結婚した人たちの住まいで、家はもちろんトヨタホームでした。</p>
-      </div>
-    </div>
-
-    <div class="relative pb-8">
-      <div class="absolute -left-[29px] md:-left-[33px] w-4 h-4 rounded-full bg-slate-400 border-2 border-white"></div>
-      <div class="bg-ads-surface border border-ads-border rounded-xl p-5">
-        <div class="text-xs font-bold text-ads-muted mb-1">退職</div>
-        <p class="text-sm text-slate-700 leading-relaxed">そんな「オールトヨタ」の日々に嫌気がさし、退職を決めました。</p>
-      </div>
-    </div>
-
-    <div class="relative pb-8">
-      <div class="absolute -left-[29px] md:-left-[33px] w-4 h-4 rounded-full bg-emerald-500 border-2 border-white"></div>
-      <div class="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-5">
-        <div class="text-xs font-bold text-emerald-600 mb-1">障がい者就労支援・ジョブコーチ</div>
-        <p class="text-sm text-slate-700 leading-relaxed">退職後は障がい者の就労支援、ジョブコーチとして従事。障害者の方との出会いに支えられ、とても充実した日々を過ごしました。</p>
-      </div>
-    </div>
-
-    <div class="relative">
-      <div class="absolute -left-[29px] md:-left-[33px] w-4 h-4 rounded-full bg-ads-accent border-2 border-white"></div>
-      <div class="bg-ads-accent/5 border-2 border-ads-accent/20 rounded-xl p-5">
-        <div class="text-xs font-bold text-ads-accent-light mb-1">介護業界・4事業所の管理者</div>
-        <p class="text-sm text-slate-700 leading-relaxed">現在は介護業界で、拠点の4事業所の管理者として働いています。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="mb-16 md:mb-20">
-  <div class="flex items-center gap-3 mb-8">
-    <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-500/10 flex-shrink-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="message-circle" aria-hidden="true" class="lucide lucide-message-circle w-5 h-5 text-cyan-600"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg>
-    </div>
-    <h2 class="text-xl md:text-2xl font-bold text-slate-900">スキル</h2>
-  </div>
-
-  <p class="mb-6 leading-relaxed">
-    就労支援と介護の現場で磨いてきたのが、<strong class="text-slate-900">コミュニケーション能力</strong>です。
-  </p>
-
-  <div class="bg-ads-surface border border-ads-border rounded-xl p-6 md:p-8">
-    <div class="flex items-start gap-4">
-      <div class="w-14 h-14 rounded-xl bg-ads-positive/10 flex items-center justify-center flex-shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="handshake" aria-hidden="true" class="lucide lucide-handshake w-7 h-7 text-ads-positive"><path d="m11 17 2 2a1 1 0 1 0 3-3"></path><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"></path><path d="m21 3 1 11h-2"></path><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"></path><path d="M3 4h8"></path></svg>
-      </div>
-      <div>
-        <h3 class="font-bold text-slate-900 mb-2">どんなクレーマとも仲良くなれる</h3>
-        <p class="text-sm text-ads-muted leading-relaxed">苦情やクレームに対応するなかで、相手の気持ちに寄り添い、信頼関係を築くことを大切にしています。就労支援・介護の両方で、人と向き合う力が強みです。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="mb-16 md:mb-20">
-  <div class="flex items-center gap-3 mb-8">
-    <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-sky-500/10 flex-shrink-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mountain-snow" aria-hidden="true" class="lucide lucide-mountain-snow w-5 h-5 text-sky-600"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path><path d="M4.14 15.08c2.62-1.57 5.24-1.43 7.86.42 2.74 1.94 5.49 2 8.23.19"></path></svg>
-    </div>
-    <h2 class="text-xl md:text-2xl font-bold text-slate-900">趣味</h2>
-  </div>
-
-  <p class="mb-6 leading-relaxed">
-    オフの時間は<strong class="text-slate-900">スノーボード</strong>で気分をリフレッシュ。特にパウダーで滑るのが好きです。
-  </p>
-
-  <div class="bg-gradient-to-b from-sky-50 to-white border border-sky-200/50 rounded-xl p-6 md:p-8">
-    <div class="flex items-center gap-4">
-      <div class="w-16 h-16 rounded-2xl bg-sky-500/15 border border-sky-500/20 flex items-center justify-center flex-shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mountain-snow" aria-hidden="true" class="lucide lucide-mountain-snow w-8 h-8 text-sky-600"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path><path d="M4.14 15.08c2.62-1.57 5.24-1.43 7.86.42 2.74 1.94 5.49 2 8.23.19"></path></svg>
-      </div>
-      <div>
-        <h3 class="font-bold text-slate-900 mb-1">スノーボード</h3>
-        <p class="text-sm text-ads-muted">特にパウダーで滑るのが好きです。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="mb-16 md:mb-20">
-  <div class="flex items-center gap-3 mb-8">
-    <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-amber-500/10 flex-shrink-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="sparkles" aria-hidden="true" class="lucide lucide-sparkles w-5 h-5 text-amber-600"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
-    </div>
-    <h2 class="text-xl md:text-2xl font-bold text-slate-900">一言</h2>
-  </div>
-
-  <div class="space-y-4">
-    <div class="bg-ads-accent/5 border border-ads-accent/20 rounded-xl p-6">
-      <p class="font-bold text-ads-accent-light mb-2">AIがあることは、自分の不得意なことが自信につながっています。</p>
-      <p class="text-sm text-ads-muted leading-relaxed">苦手なことでも、AIを味方につけることで前に進める。その実感が、学び続ける理由になっています。</p>
-    </div>
-    <div class="bg-ads-positive/5 border border-ads-positive/20 rounded-xl p-6">
-      <p class="font-bold text-emerald-700 mb-2">今回の受講で挫折しないように。数あるAIスクールからAI-Driven Schoolを選んで良かったと言えるようにします。</p>
-      <p class="text-sm text-ads-muted leading-relaxed">ここで学んだことを、仕事や自分自身の成長に活かしていく決意です。</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="text-center bg-gradient-to-b from-ads-accent/5 to-transparent border border-ads-accent/10 rounded-xl p-8 md:p-10">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="heart" aria-hidden="true" class="lucide lucide-heart w-8 h-8 text-ads-accent mx-auto mb-4"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"></path></svg>
-    <p class="text-lg font-bold text-slate-900 mb-3">人と向き合う仕事を、これからも。</p>
-    <p class="text-ads-muted max-w-lg mx-auto leading-relaxed">
-      トヨタから就労支援、そして介護へ。どの現場でも「人」を中心に考えてきました。AI-Driven Schoolでの学びを武器に、これからも自分らしく歩いていきます。
-    </p>
-  </div>
-</section>
-
-<!-- CONTENT_END -->
-  </main>
-  <footer class="max-w-3xl mx-auto px-5 pb-10 pt-6 border-t border-ads-border/30">
-    <p class="text-xs text-ads-dim text-center">AI-Driven School の図解ツールで作成</p>
-  </footer>
-  <script src="./ソーヤーの自己紹介_files/lucide@latest"></script>
-  <script>lucide.createIcons();</script>
-
-
-</body></html>
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

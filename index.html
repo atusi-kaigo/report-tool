@@ -210,7 +210,7 @@
     <!-- 生成結果エリア -->
     <div id="resultArea" class="hidden space-y-4">
 
-      <!-- ④ 本日中の重要ToDo -->
+      <!-- ToDo カード -->
       <div class="todo-card rounded-2xl border-2 border-orange-200 p-4 space-y-3">
         <div class="flex items-center gap-2">
           <div class="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -220,51 +220,53 @@
           <span class="ml-auto text-xs bg-red-100 text-red-600 font-bold px-2 py-1 rounded-full">要対応</span>
         </div>
         <div id="todoContent" class="space-y-2.5"></div>
-        <button onclick="shareToLine('todo')"
-          class="w-full py-3 bg-green-500 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-green-600 transition-colors">
-          <svg style="width:16px;height:16px;flex-shrink:0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.23 5.12 3.18 6.79L4 22l4.36-1.4C9.39 21.17 10.67 21.5 12 21.5c5.52 0 10-4.03 10-9s-4.48-9-10-9zm0 16.5c-1.19 0-2.33-.23-3.37-.64l-.24-.09-2.49.8.69-2.43-.16-.25C5.03 14.72 4 12.94 4 11c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/></svg>
-          LINEでToDoを送る
-        </button>
         <button onclick="copyText('todo')"
-          class="w-full py-3 bg-orange-100 text-orange-700 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-orange-200 transition-colors">
-          <i data-lucide="copy" style="width:15px;height:15px"></i> ToDoをコピー
+          class="w-full py-2 bg-orange-50 text-orange-600 text-xs font-medium rounded-xl flex items-center justify-center gap-1.5 active:bg-orange-100 transition-colors border border-orange-100">
+          <i data-lucide="copy" style="width:13px;height:13px"></i> ToDoをコピー
         </button>
       </div>
 
-      <!-- ⑤ 職員向け完成文 -->
+      <!-- 完成文カード -->
       <div class="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
         <div class="flex items-center gap-2">
           <div class="w-7 h-7 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
             <i data-lucide="message-square" class="text-white" style="width:16px;height:16px"></i>
           </div>
           <span class="font-bold text-gray-800 text-base">職員向け完成文</span>
-          <span class="ml-auto text-xs bg-blue-50 text-blue-600 font-medium px-2 py-1 rounded-full">LINEで送信</span>
         </div>
         <div id="messageContent"
           class="text-sm text-gray-700 bg-gray-50 rounded-xl p-3 leading-relaxed whitespace-pre-wrap min-h-24 border border-gray-100">
         </div>
+        <button onclick="copyText('message')"
+          class="w-full py-2 bg-gray-50 text-gray-500 text-xs font-medium rounded-xl flex items-center justify-center gap-1.5 active:bg-gray-100 transition-colors border border-gray-200">
+          <i data-lucide="copy" style="width:13px;height:13px"></i> 完成文をコピー
+        </button>
+      </div>
 
-        <!-- ⑥ コピー・送信操作 -->
-        <div class="space-y-2">
-          <button onclick="shareToLine('message')"
-            class="w-full py-3 bg-green-500 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-green-600 transition-colors">
-            <svg style="width:16px;height:16px;flex-shrink:0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.23 5.12 3.18 6.79L4 22l4.36-1.4C9.39 21.17 10.67 21.5 12 21.5c5.52 0 10-4.03 10-9s-4.48-9-10-9zm0 16.5c-1.19 0-2.33-.23-3.37-.64l-.24-.09-2.49.8.69-2.43-.16-.25C5.03 14.72 4 12.94 4 11c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/></svg>
-            LINEで完成文を送る
-          </button>
-          <button onclick="shareToLine('all')"
-            class="w-full py-3 bg-green-700 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-green-800 transition-colors">
-            <svg style="width:16px;height:16px;flex-shrink:0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.23 5.12 3.18 6.79L4 22l4.36-1.4C9.39 21.17 10.67 21.5 12 21.5c5.52 0 10-4.03 10-9s-4.48-9-10-9zm0 16.5c-1.19 0-2.33-.23-3.37-.64l-.24-.09-2.49.8.69-2.43-.16-.25C5.03 14.72 4 12.94 4 11c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/></svg>
-            LINEでToDo＋完成文を送る
-          </button>
-          <button onclick="copyText('message')"
-            class="w-full py-3 bg-gray-100 text-gray-600 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-gray-200 transition-colors">
-            <i data-lucide="copy" style="width:14px;height:14px"></i> 完成文をコピー
-          </button>
-          <button onclick="copyText('all')"
-            class="w-full py-3 bg-gray-100 text-gray-600 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-gray-200 transition-colors">
-            <i data-lucide="clipboard-copy" style="width:14px;height:14px"></i> ToDo＋完成文を全コピー
-          </button>
-        </div>
+      <!-- メインCTA: LINEで全部送る -->
+      <button onclick="shareToLine('all')"
+        class="w-full py-4 rounded-2xl text-white font-bold text-base flex items-center justify-center gap-2.5 active:opacity-90 transition-opacity shadow-md"
+        style="background:#06C755;">
+        <svg style="width:22px;height:22px;flex-shrink:0" viewBox="0 0 48 48" fill="white"><path d="M24 4C12.95 4 4 11.86 4 21.5c0 6.02 3.58 11.34 9.02 14.68-.4 1.48-1.44 5.38-1.65 6.2-.27 1.03.37 1.02.77.74.32-.22 5.11-3.44 7.17-4.83.85.12 1.73.18 2.69.18 11.05 0 20-7.86 20-17.5C44 11.86 35.05 4 24 4z"/></svg>
+        LINEで全部送る（ToDo＋完成文）
+      </button>
+
+      <!-- サブ: 個別LINE送信 + 全コピー -->
+      <div class="flex gap-2">
+        <button onclick="shareToLine('todo')"
+          class="flex-1 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 active:opacity-80 transition-opacity border border-green-500 text-green-600 bg-white">
+          <svg style="width:14px;height:14px;flex-shrink:0" viewBox="0 0 48 48" fill="#16a34a"><path d="M24 4C12.95 4 4 11.86 4 21.5c0 6.02 3.58 11.34 9.02 14.68-.4 1.48-1.44 5.38-1.65 6.2-.27 1.03.37 1.02.77.74.32-.22 5.11-3.44 7.17-4.83.85.12 1.73.18 2.69.18 11.05 0 20-7.86 20-17.5C44 11.86 35.05 4 24 4z"/></svg>
+          ToDoのみ
+        </button>
+        <button onclick="shareToLine('message')"
+          class="flex-1 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 active:opacity-80 transition-opacity border border-green-500 text-green-600 bg-white">
+          <svg style="width:14px;height:14px;flex-shrink:0" viewBox="0 0 48 48" fill="#16a34a"><path d="M24 4C12.95 4 4 11.86 4 21.5c0 6.02 3.58 11.34 9.02 14.68-.4 1.48-1.44 5.38-1.65 6.2-.27 1.03.37 1.02.77.74.32-.22 5.11-3.44 7.17-4.83.85.12 1.73.18 2.69.18 11.05 0 20-7.86 20-17.5C44 11.86 35.05 4 24 4z"/></svg>
+          完成文のみ
+        </button>
+        <button onclick="copyText('all')"
+          class="flex-1 py-2.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 active:bg-gray-200 transition-colors">
+          <i data-lucide="copy" style="width:13px;height:13px"></i> 全コピー
+        </button>
       </div>
 
     </div>

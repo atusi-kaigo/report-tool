@@ -220,8 +220,13 @@
           <span class="ml-auto text-xs bg-red-100 text-red-600 font-bold px-2 py-1 rounded-full">要対応</span>
         </div>
         <div id="todoContent" class="space-y-2.5"></div>
+        <button onclick="shareToLine('todo')"
+          class="w-full py-3 bg-green-500 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-green-600 transition-colors">
+          <svg style="width:16px;height:16px;flex-shrink:0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.23 5.12 3.18 6.79L4 22l4.36-1.4C9.39 21.17 10.67 21.5 12 21.5c5.52 0 10-4.03 10-9s-4.48-9-10-9zm0 16.5c-1.19 0-2.33-.23-3.37-.64l-.24-.09-2.49.8.69-2.43-.16-.25C5.03 14.72 4 12.94 4 11c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/></svg>
+          LINEでToDoを送る
+        </button>
         <button onclick="copyText('todo')"
-          class="w-full py-3 bg-orange-500 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-orange-600 transition-colors">
+          class="w-full py-3 bg-orange-100 text-orange-700 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-orange-200 transition-colors">
           <i data-lucide="copy" style="width:15px;height:15px"></i> ToDoをコピー
         </button>
       </div>
@@ -239,14 +244,24 @@
           class="text-sm text-gray-700 bg-gray-50 rounded-xl p-3 leading-relaxed whitespace-pre-wrap min-h-24 border border-gray-100">
         </div>
 
-        <!-- ⑥ コピー操作 -->
+        <!-- ⑥ コピー・送信操作 -->
         <div class="space-y-2">
+          <button onclick="shareToLine('message')"
+            class="w-full py-3 bg-green-500 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-green-600 transition-colors">
+            <svg style="width:16px;height:16px;flex-shrink:0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.23 5.12 3.18 6.79L4 22l4.36-1.4C9.39 21.17 10.67 21.5 12 21.5c5.52 0 10-4.03 10-9s-4.48-9-10-9zm0 16.5c-1.19 0-2.33-.23-3.37-.64l-.24-.09-2.49.8.69-2.43-.16-.25C5.03 14.72 4 12.94 4 11c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/></svg>
+            LINEで完成文を送る
+          </button>
+          <button onclick="shareToLine('all')"
+            class="w-full py-3 bg-green-700 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-green-800 transition-colors">
+            <svg style="width:16px;height:16px;flex-shrink:0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.23 5.12 3.18 6.79L4 22l4.36-1.4C9.39 21.17 10.67 21.5 12 21.5c5.52 0 10-4.03 10-9s-4.48-9-10-9zm0 16.5c-1.19 0-2.33-.23-3.37-.64l-.24-.09-2.49.8.69-2.43-.16-.25C5.03 14.72 4 12.94 4 11c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/></svg>
+            LINEでToDo＋完成文を送る
+          </button>
           <button onclick="copyText('message')"
-            class="w-full py-3 bg-blue-500 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-blue-600 transition-colors">
+            class="w-full py-3 bg-gray-100 text-gray-600 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-gray-200 transition-colors">
             <i data-lucide="copy" style="width:14px;height:14px"></i> 完成文をコピー
           </button>
           <button onclick="copyText('all')"
-            class="w-full py-3 bg-gray-700 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-gray-800 transition-colors">
+            class="w-full py-3 bg-gray-100 text-gray-600 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:bg-gray-200 transition-colors">
             <i data-lucide="clipboard-copy" style="width:14px;height:14px"></i> ToDo＋完成文を全コピー
           </button>
         </div>
@@ -674,6 +689,14 @@
       toast.classList.add('show');
       clearTimeout(toast._timer);
       toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function shareToLine(type) {
+      const text = type === 'todo'    ? generatedTodo
+                 : type === 'message' ? generatedMessage
+                 : generatedTodo + '\n\n' + generatedMessage;
+      const url = 'https://line.me/R/share?text=' + encodeURIComponent(text);
+      window.open(url, '_blank');
     }
 
     function escapeHtml(str) {

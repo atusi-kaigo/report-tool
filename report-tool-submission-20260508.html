@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>自動報告ツール 制作レポート</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
+    body { font-family: 'Noto Sans JP', sans-serif; }
+    .phone-frame {
+      width: 220px;
+      border: 3px solid #1f2937;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      background: #f9fafb;
+      position: relative;
+    }
+    .phone-notch {
+      background: #1f2937;
+      height: 20px;
+      width: 70px;
+      margin: 0 auto;
+      border-radius: 0 0 12px 12px;
+    }
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .challenge-card {
+      border-left: 4px solid;
+      padding: 12px 16px;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 12px;
+    }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- ヘッダー -->
+  <div class="bg-gradient-to-r from-orange-500 to-orange-400 text-white px-6 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-xs font-bold tracking-widest opacity-80 mb-2">SCHOOL SUBMISSION / 制作レポート</div>
+      <h1 class="text-3xl font-black mb-2">自動報告ツール</h1>
+      <p class="text-lg opacity-90 font-bold">話すだけでToDoと報告文を自動生成するWebアプリ</p>
+      <div class="flex flex-wrap gap-3 mt-4">
+        <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">HTML / CSS / JavaScript</span>
+        <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">Gemini API</span>
+        <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">Web Speech API</span>
+        <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">GitHub Pages</span>
+        <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">LINE共有</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto px-6 py-8 space-y-10">
+
+    <!-- ① ツール概要 -->
+    <section>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-sm">①</div>
+        <h2 class="text-xl font-black text-gray-900">ツール概要・どんな課題を解決するか</h2>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <div class="text-sm font-bold text-red-600 bg-red-50 border border-red-100 rounded-xl p-4 mb-4">
+              <div class="font-black mb-2">😓 解決したかった問題</div>
+              <ul class="space-y-1.5 text-sm">
+                <li>・介護現場では口頭指示が多く、記録に残りにくい</li>
+                <li>・LINEで報告文を書くのが手間で後回しになる</li>
+                <li>・重要なToDoが埋もれてスタッフに伝わらない</li>
+                <li>・入力が面倒でツールを使ってもらえない</li>
+              </ul>
+            </div>
+            <div class="text-sm font-bold text-green-600 bg-green-50 border border-green-100 rounded-xl p-4">
+              <div class="font-black mb-2">✅ このツールでできること</div>
+              <ul class="space-y-1.5 text-sm">
+                <li>・<strong>声で話すだけ</strong>で入力完了（iPhone Safari対応）</li>
+                <li>・AIが自動で<strong>重要ToDo</strong>を抽出・整理</li>
+                <li>・<strong>職員向け完成文</strong>をそのまま生成</li>
+                <li>・ボタン1つで<strong>LINEに送信</strong></li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex flex-col items-center justify-center gap-2">
+            <div class="text-xs text-gray-400 font-bold mb-1">使い方フロー</div>
+            <div class="flex flex-col items-center gap-2 w-full max-w-xs">
+              <div class="w-full bg-orange-100 border-2 border-orange-300 rounded-xl px-4 py-3 text-center">
+                <div class="text-2xl mb-1">🎤</div>
+                <div class="text-sm font-bold text-orange-800">① 話す or テキスト入力</div>
+                <div class="text-xs text-orange-600">「田中さんを14時に送迎して」</div>
+              </div>
+              <div class="text-gray-300 text-xl">↓</div>
+              <div class="w-full bg-blue-100 border-2 border-blue-300 rounded-xl px-4 py-3 text-center">
+                <div class="text-2xl mb-1">⚡</div>
+                <div class="text-sm font-bold text-blue-800">② 「生成する」をタップ</div>
+                <div class="text-xs text-blue-600">AI（Gemini）が自動で整理</div>
+              </div>
+              <div class="text-gray-300 text-xl">↓</div>
+              <div class="w-full bg-green-100 border-2 border-green-300 rounded-xl px-4 py-3 text-center">
+                <div class="text-2xl mb-1">📤</div>
+                <div class="text-sm font-bold text-green-800">③ LINEで全部送る</div>
+                <div class="text-xs text-green-600">スタッフのグループに即共有</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 画面スクリーンショット -->
+    <section>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-sm">②</div>
+        <h2 class="text-xl font-black text-gray-900">画面構成（4つのパーツ）</h2>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <p class="text-sm text-gray-500 mb-6">1つのHTMLファイルで完結。スマホで開くだけで使えます（インストール不要）。</p>
+
+        <!-- 4画面モックアップ -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+
+          <!-- 画面1: 入力画面 -->
+          <div class="flex flex-col items-center gap-2">
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="p-2.5 space-y-2">
+                <!-- ヘッダー -->
+                <div class="flex items-center gap-1.5 py-1">
+                  <div class="w-6 h-6 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <div class="w-3 h-3 bg-orange-400 rounded-sm"></div>
+                  </div>
+                  <div>
+                    <div class="text-xs font-black text-gray-800" style="font-size:8px">自動報告ツール</div>
+                    <div style="font-size:6px;color:#9ca3af">話すだけでToDoを生成</div>
+                  </div>
+                  <div class="ml-auto w-5 h-5 bg-gray-100 rounded-lg"></div>
+                </div>
+                <!-- マイクボタン -->
+                <div class="bg-white rounded-xl border border-gray-100 p-2 space-y-1.5">
+                  <div class="flex flex-col items-center py-1 gap-1">
+                    <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+                      <div class="w-4 h-5 bg-white rounded-sm opacity-90"></div>
+                    </div>
+                    <div style="font-size:7px;color:#6b7280">タップして話す</div>
+                  </div>
+                  <div class="border-t border-gray-100 my-1"></div>
+                  <div class="bg-gray-50 rounded-lg p-1.5" style="min-height:28px">
+                    <div style="font-size:6.5px;color:#374151">田中さんの家から14時...</div>
+                  </div>
+                  <div style="font-size:6px;color:#9ca3af;text-align:right">20文字　× クリア</div>
+                </div>
+                <!-- 生成ボタン -->
+                <div class="bg-orange-500 rounded-xl py-2 text-center">
+                  <div style="font-size:8px;color:white;font-weight:bold">⚡ 生成する</div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="text-xs font-bold text-gray-700">入力画面</div>
+              <div style="font-size:10px;color:#6b7280">音声 or テキスト</div>
+            </div>
+          </div>
+
+          <!-- 画面2: 生成中 -->
+          <div class="flex flex-col items-center gap-2">
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="p-2.5 space-y-2">
+                <div class="flex items-center gap-1.5 py-1">
+                  <div class="w-6 h-6 bg-orange-100 rounded-lg"></div>
+                  <div style="font-size:8px;font-weight:900;color:#111">自動報告ツール</div>
+                </div>
+                <!-- スケルトンローディング -->
+                <div class="bg-orange-50 rounded-xl border-2 border-orange-100 p-2 space-y-1.5">
+                  <div class="h-2 bg-gray-200 rounded animate-pulse w-2/3"></div>
+                  <div class="h-2 bg-gray-200 rounded animate-pulse w-full"></div>
+                  <div class="h-2 bg-gray-200 rounded animate-pulse w-4/5"></div>
+                  <div class="h-2 bg-gray-200 rounded animate-pulse w-3/4"></div>
+                </div>
+                <div class="bg-white rounded-xl border border-gray-100 p-2 space-y-1.5">
+                  <div class="h-2 bg-gray-200 rounded animate-pulse w-1/2"></div>
+                  <div class="h-2 bg-gray-200 rounded animate-pulse w-full"></div>
+                  <div class="h-2 bg-gray-200 rounded animate-pulse w-full"></div>
+                  <div class="h-2 bg-gray-200 rounded animate-pulse w-2/3"></div>
+                </div>
+                <div class="bg-orange-300 rounded-xl py-2 text-center opacity-50">
+                  <div style="font-size:8px;color:white;font-weight:bold">生成中...</div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="text-xs font-bold text-gray-700">生成中</div>
+              <div style="font-size:10px;color:#6b7280">スケルトン表示</div>
+            </div>
+          </div>
+
+          <!-- 画面3: 結果（ToDo） -->
+          <div class="flex flex-col items-center gap-2">
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="p-2.5 space-y-2">
+                <div class="flex items-center gap-1.5 py-1">
+                  <div class="w-6 h-6 bg-orange-100 rounded-lg"></div>
+                  <div style="font-size:8px;font-weight:900;color:#111">自動報告ツール</div>
+                </div>
+                <!-- ToDoカード -->
+                <div class="rounded-xl border-2 border-orange-200 p-2 space-y-1.5" style="background:#fff7ed">
+                  <div class="flex items-center gap-1">
+                    <div class="w-4 h-4 bg-orange-500 rounded-md"></div>
+                    <div style="font-size:7px;font-weight:900;color:#c2410c">本日中の重要ToDo</div>
+                    <div class="ml-auto bg-red-100 rounded-full px-1" style="font-size:5.5px;color:#dc2626;font-weight:bold">要対応</div>
+                  </div>
+                  <!-- Todoアイテム -->
+                  <div class="bg-white rounded-lg p-1.5 border border-orange-100 space-y-0.5">
+                    <div class="flex items-center gap-1">
+                      <div class="w-2.5 h-2.5 rounded border-2 border-orange-300"></div>
+                      <div style="font-size:6.5px;font-weight:700;color:#374151">田中さん 送迎</div>
+                      <div class="ml-auto bg-orange-50 rounded" style="font-size:5.5px;color:#ea580c;font-weight:bold;padding:1px 3px">14:00</div>
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg p-1.5 border border-orange-100 space-y-0.5">
+                    <div class="flex items-center gap-1">
+                      <div class="w-2.5 h-2.5 rounded border-2 border-orange-300"></div>
+                      <div style="font-size:6.5px;font-weight:700;color:#374151">記録入力</div>
+                      <div class="ml-auto bg-orange-50 rounded" style="font-size:5.5px;color:#ea580c;font-weight:bold;padding:1px 3px">本日中</div>
+                    </div>
+                  </div>
+                  <div class="bg-orange-50 border border-orange-100 rounded-lg py-1 text-center" style="font-size:6px;color:#ea580c">ToDoをコピー</div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="text-xs font-bold text-gray-700">結果① ToDo</div>
+              <div style="font-size:10px;color:#6b7280">期限・担当者を整理</div>
+            </div>
+          </div>
+
+          <!-- 画面4: LINE送信 -->
+          <div class="flex flex-col items-center gap-2">
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="p-2.5 space-y-2">
+                <div class="flex items-center gap-1.5 py-1">
+                  <div class="w-6 h-6 bg-orange-100 rounded-lg"></div>
+                  <div style="font-size:8px;font-weight:900;color:#111">自動報告ツール</div>
+                </div>
+                <!-- 完成文カード -->
+                <div class="bg-white rounded-xl border border-gray-200 p-2 space-y-1.5">
+                  <div class="flex items-center gap-1">
+                    <div class="w-4 h-4 bg-blue-500 rounded-md"></div>
+                    <div style="font-size:7px;font-weight:900;color:#1e40af">職員向け完成文</div>
+                  </div>
+                  <div class="bg-gray-50 rounded-lg p-1.5 border border-gray-100">
+                    <div style="font-size:6px;color:#374151;line-height:1.6">お疲れ様です。<br>本日14時に田中様の送迎をお願いします。終了後は記録への入力もお願いします。</div>
+                  </div>
+                  <div class="bg-gray-50 rounded-lg py-1 text-center border border-gray-100" style="font-size:6px;color:#6b7280">完成文をコピー</div>
+                </div>
+                <!-- メインLINEボタン -->
+                <div class="rounded-xl py-2 text-center shadow" style="background:#06C755">
+                  <div style="font-size:7.5px;color:white;font-weight:bold">📤 LINEで全部送る</div>
+                </div>
+                <!-- サブボタン -->
+                <div class="flex gap-1">
+                  <div class="flex-1 rounded-lg py-1 text-center border border-green-500" style="font-size:5.5px;color:#16a34a">ToDoのみ</div>
+                  <div class="flex-1 rounded-lg py-1 text-center border border-green-500" style="font-size:5.5px;color:#16a34a">完成文のみ</div>
+                  <div class="flex-1 bg-gray-100 rounded-lg py-1 text-center" style="font-size:5.5px;color:#6b7280">全コピー</div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="text-xs font-bold text-gray-700">結果② 完成文</div>
+              <div style="font-size:10px;color:#6b7280">LINEに即送信</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 公開URL -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 flex items-center gap-3">
+          <div class="text-blue-500 text-lg">🔗</div>
+          <div>
+            <div class="text-xs font-bold text-blue-800">公開URL（GitHub Pages）</div>
+            <div class="text-sm font-mono text-blue-600">https://atusi-kaigo.github.io/report-tool/</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 4つのパーツの決め方 -->
+    <section>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-sm">③</div>
+        <h2 class="text-xl font-black text-gray-900">4つのパーツの決め方</h2>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <p class="text-sm text-gray-500 mb-5">「ユーザーが何をしたいか」の流れに沿って、画面を4つに分けました。</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="border-2 border-orange-200 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-xs">A</div>
+              <div class="font-black text-gray-800">入力エリア</div>
+              <div class="ml-auto text-xs text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full font-bold">音声 / テキスト</div>
+            </div>
+            <p class="text-sm text-gray-600">現場では手が塞がっていることが多いため、<strong>音声入力を最優先</strong>に配置。テキスト入力はサブ扱いにして、マイクボタンを画面中央の大きな丸に。</p>
+          </div>
+          <div class="border-2 border-blue-200 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-7 h-7 bg-blue-500 rounded-lg flex items-center justify-center text-white font-black text-xs">B</div>
+              <div class="font-black text-gray-800">生成ボタン</div>
+              <div class="ml-auto text-xs text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full font-bold">1アクション</div>
+            </div>
+            <p class="text-sm text-gray-600">「次に何をすればいいか」を明確にするため、<strong>ボタンは1つ</strong>だけ。大きく・オレンジで目立たせて迷わせない設計に。</p>
+          </div>
+          <div class="border-2 border-amber-200 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-7 h-7 bg-amber-500 rounded-lg flex items-center justify-center text-white font-black text-xs">C</div>
+              <div class="font-black text-gray-800">ToDoカード</div>
+              <div class="ml-auto text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full font-bold">期限・担当</div>
+            </div>
+            <p class="text-sm text-gray-600">AIに「期限・対象者・やること」の3要素で構造化させることで、<strong>読まなくても内容がわかる</strong>カード表示に。重要度順に並ぶ。</p>
+          </div>
+          <div class="border-2 border-green-200 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-7 h-7 bg-green-600 rounded-lg flex items-center justify-center text-white font-black text-xs">D</div>
+              <div class="font-black text-gray-800">完成文 + LINE送信</div>
+              <div class="ml-auto text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full font-bold">即共有</div>
+            </div>
+            <p class="text-sm text-gray-600">作った文章を使ってもらえなければ意味がないため、<strong>LINEで全部送る</strong>ボタンを大きなメインCTAに。個別送信はサブに格下げ。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ デザインの工夫 -->
+    <section>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-sm">④</div>
+        <h2 class="text-xl font-black text-gray-900">デザインの工夫</h2>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-gray-50 rounded-xl p-4">
+            <div class="text-2xl mb-2">📱</div>
+            <div class="font-black text-gray-800 mb-2">モバイルファースト</div>
+            <p class="text-sm text-gray-600">介護現場はスマホがメイン。タップしやすい大きなボタン（44px以上）・大きめフォント・スクロールを最小限にするレイアウトを採用。</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-4">
+            <div class="text-2xl mb-2">🟠</div>
+            <div class="font-black text-gray-800 mb-2">オレンジで統一</div>
+            <p class="text-sm text-gray-600">「緊急性・行動を促す」イメージのオレンジをメインカラーに。ToDoカードは温かみのあるオレンジ背景、完成文は落ち着いた白背景と使い分け。</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-4">
+            <div class="text-2xl mb-2">💬</div>
+            <div class="font-black text-gray-800 mb-2">LINEブラウザ対策</div>
+            <p class="text-sm text-gray-600">LINEのトーク内リンクから開くと音声入力できない問題を検知。「Safariで開く」ボタンを自動表示してユーザーを誘導する仕組みを実装。</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-4">
+            <div class="text-2xl mb-2">⏳</div>
+            <div class="font-black text-gray-800 mb-2">スケルトンローディング</div>
+            <p class="text-sm text-gray-600">AI生成中は「灰色のシマシマ（スケルトン）」を表示。「固まった？」と不安にならないよう、待ち時間を視覚的に伝える工夫。</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-4">
+            <div class="text-2xl mb-2">🟢</div>
+            <div class="font-black text-gray-800 mb-2">LINEカラーで送信感</div>
+            <p class="text-sm text-gray-600">送信ボタンにLINE公式カラー（#06C755）を使用。「これを押せばLINEに飛ぶ」とひと目でわかるように。アイコンもLINEのロゴ形状のSVGを使用。</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-4">
+            <div class="text-2xl mb-2">🔔</div>
+            <div class="font-black text-gray-800 mb-2">トースト通知</div>
+            <p class="text-sm text-gray-600">コピー成功・エラー時に画面下部から「コピーしました」などのポップアップを表示。ダイアログ（ポップアップ確認）を使わず、操作を止めないUXに。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ ぶつかった課題と解決方法 -->
+    <section>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-sm">⑤</div>
+        <h2 class="text-xl font-black text-gray-900">ぶつかった課題と解決方法</h2>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+
+        <div class="challenge-card" style="border-color:#ef4444;background:#fff5f5">
+          <div class="flex items-start gap-3">
+            <div class="bg-red-500 text-white text-xs font-black px-2 py-0.5 rounded-full flex-shrink-0 mt-0.5">課題1</div>
+            <div class="flex-1">
+              <div class="font-black text-red-800 mb-1">APIキーの切り替え時にJavaScriptが全部動かなくなった</div>
+              <div class="text-sm text-red-700 mb-2">OpenAI→Geminiに切り替えた際、URLのテンプレートリテラル（バッククォートで囲む文字列）が消えてしまい、ページ全体が白くなって音声入力も使えなくなった。</div>
+              <div class="bg-red-100 rounded-lg p-2 text-xs font-mono text-red-800 mb-2">
+                ❌ 誤: fetch(https://.../${model}...) ← バッククォートなし<br>
+                ✅ 正: fetch(`https://.../${model}...`) ← バッククォートあり
+              </div>
+              <div class="text-sm font-bold text-green-700">→ 解決：ブラウザの開発者ツールでエラーを確認し、バッククォートの欠落を特定して修正</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="challenge-card" style="border-color:#f59e0b;background:#fffbeb">
+          <div class="flex items-start gap-3">
+            <div class="bg-amber-500 text-white text-xs font-black px-2 py-0.5 rounded-full flex-shrink-0 mt-0.5">課題2</div>
+            <div class="flex-1">
+              <div class="font-black text-amber-800 mb-1">OpenAI APIの残高切れでツールが使えなくなった</div>
+              <div class="text-sm text-amber-700 mb-2">「生成する」を押すとエラーメッセージが出てAIが使えなくなった。OpenAI APIはクレジット（前払い残高）を消費するため、残高が0になると止まる。</div>
+              <div class="text-sm font-bold text-green-700">→ 解決：無料枠のあるGemini API（Google製）に切り替え。月あたりの無料呼び出し回数が多く、個人利用なら実質無料で使い続けられる</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="challenge-card" style="border-color:#3b82f6;background:#eff6ff">
+          <div class="flex items-start gap-3">
+            <div class="bg-blue-500 text-white text-xs font-black px-2 py-0.5 rounded-full flex-shrink-0 mt-0.5">課題3</div>
+            <div class="flex-1">
+              <div class="font-black text-blue-800 mb-1">LINEアプリ内ブラウザでは音声入力できない</div>
+              <div class="text-sm text-blue-700 mb-2">LINEのトーク内のリンクをタップして開くと、マイクボタンが反応しない。LINEの内蔵ブラウザは音声API（Web Speech API）に対応していないため。</div>
+              <div class="text-sm font-bold text-green-700">→ 解決：ユーザーエージェント（ブラウザの識別情報）を検知してLINEアプリ内と判断したら、「Safariで開く」ボタンを自動表示する仕組みを実装</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="challenge-card" style="border-color:#8b5cf6;background:#f5f3ff">
+          <div class="flex items-start gap-3">
+            <div class="bg-purple-500 text-white text-xs font-black px-2 py-0.5 rounded-full flex-shrink-0 mt-0.5">課題4</div>
+            <div class="flex-1">
+              <div class="font-black text-purple-800 mb-1">LINEボタンが多すぎて「どれを押せばいい？」状態になった</div>
+              <div class="text-sm text-purple-700 mb-2">「ToDoだけ送る」「完成文だけ送る」「両方送る」「コピーする」で6つのボタンが並び、現場で使うには認知負荷が高すぎた。</div>
+              <div class="text-sm font-bold text-green-700">→ 解決：「LINEで全部送る」を大きなメインボタンに一本化。個別送信は小さなサブボタンとして横並びに格下げ。UI/UXレビューで指摘されて気づいた改善点</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑥ 技術スタックまとめ -->
+    <section>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-sm">⑥</div>
+        <h2 class="text-xl font-black text-gray-900">使った技術と選んだ理由</h2>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b-2 border-gray-100">
+                <th class="text-left py-2 pr-4 text-gray-500 font-bold w-1/4">技術</th>
+                <th class="text-left py-2 pr-4 text-gray-500 font-bold w-1/4">用途</th>
+                <th class="text-left py-2 text-gray-500 font-bold">選んだ理由</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              <tr>
+                <td class="py-3 pr-4 font-bold text-gray-800">HTML / JS<br><span class="text-xs text-gray-400 font-normal">単一ファイル</span></td>
+                <td class="py-3 pr-4 text-gray-600">アプリ全体</td>
+                <td class="py-3 text-gray-600">インストール不要・GitHubに上げるだけで公開できる。フレームワーク不要でシンプル</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 font-bold text-gray-800">Tailwind CSS<br><span class="text-xs text-gray-400 font-normal">CDN</span></td>
+                <td class="py-3 pr-4 text-gray-600">デザイン</td>
+                <td class="py-3 text-gray-600">クラス名を書くだけでスマホ対応のデザインが作れる。CSSを別ファイルにしなくていい</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 font-bold text-gray-800">Gemini API<br><span class="text-xs text-gray-400 font-normal">Google製AI</span></td>
+                <td class="py-3 pr-4 text-gray-600">文章生成</td>
+                <td class="py-3 text-gray-600">無料枠が大きく個人利用で実質無料。日本語の精度が高く、JSON形式で安定して返答してくれる</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 font-bold text-gray-800">Web Speech API<br><span class="text-xs text-gray-400 font-normal">ブラウザ標準</span></td>
+                <td class="py-3 pr-4 text-gray-600">音声入力</td>
+                <td class="py-3 text-gray-600">追加ライブラリ不要。iPhone Safariで使えるブラウザ標準の音声認識API</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 font-bold text-gray-800">GitHub Pages<br><span class="text-xs text-gray-400 font-normal">無料ホスティング</span></td>
+                <td class="py-3 pr-4 text-gray-600">公開・デプロイ</td>
+                <td class="py-3 text-gray-600">GitHubにファイルをアップするだけで自動公開。サーバー代0円。URLを誰にでも共有できる</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- フッター -->
+    <div class="text-center text-xs text-gray-400 py-4 border-t border-gray-100">
+      自動報告ツール v2.2 &nbsp;|&nbsp; 制作レポート 2026年5月8日 &nbsp;|&nbsp;
+      <a href="https://github.com/atusi-kaigo/report-tool" class="text-orange-400 underline">GitHub</a> &nbsp;|&nbsp;
+      <a href="https://atusi-kaigo.github.io/report-tool/" class="text-orange-400 underline">公開URL</a>
+    </div>
+
+  </div>
+</body>
+</html>

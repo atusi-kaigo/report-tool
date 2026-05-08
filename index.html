@@ -99,23 +99,52 @@
     </div>
 
     <!-- 設定パネル -->
-    <div id="settingsPanel" class="hidden bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
+    <div id="settingsPanel" class="hidden bg-white rounded-2xl border border-gray-200 p-4 space-y-4">
       <p class="text-sm font-semibold text-gray-700 flex items-center gap-2">
         <i data-lucide="key" style="width:15px;height:15px"></i> API設定
       </p>
-      <div>
-        <label for="apiKey" class="text-xs text-gray-500 mb-1.5 block">Gemini API\u30AD\u30FC</label>
-        <input id="apiKey" type="password" placeholder="AIza..."
-          class="w-full text-sm border border-gray-200 rounded-xl px-3 py-3 bg-gray-50 focus:bg-white focus:border-orange-300 transition-colors" />
-        <p class="text-xs text-gray-400 mt-1.5"><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" class="text-orange-500 underline">aistudio.google.com</a> で無料取得できます。キーはこの端末内のみ保存。</p>
+
+      <!-- 取得ガイド -->
+      <div class="bg-orange-50 border border-orange-100 rounded-xl p-3 space-y-2">
+        <p class="text-xs font-bold text-orange-700">Gemini APIキーの取得方法（無料・約1分）</p>
+        <ol class="text-xs text-orange-800 space-y-1.5 pl-1">
+          <li class="flex items-start gap-2">
+            <span class="bg-orange-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">1</span>
+            <span>下のリンクを開いてGoogleアカウントでログイン</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="bg-orange-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">2</span>
+            <span>「APIキーを作成」ボタンをタップ</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="bg-orange-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">3</span>
+            <span>表示された「AIza...」から始まる文字列をコピーして下に貼り付ける</span>
+          </li>
+        </ol>
+        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener"
+          class="flex items-center justify-center gap-1.5 w-full py-2 bg-orange-500 text-white text-xs font-semibold rounded-lg active:bg-orange-600 transition-colors">
+          <i data-lucide="external-link" style="width:12px;height:12px"></i>
+          Google AI Studio を開く（無料）
+        </a>
       </div>
+
+      <!-- APIキー入力 -->
       <div>
-        <label for="modelSelect" class="text-xs text-gray-500 mb-1.5 block">モデル</label>
+        <label for="apiKey" class="text-xs text-gray-500 mb-1.5 block">Gemini APIキー</label>
+        <input id="apiKey" type="password" placeholder="AIza... （ここに貼り付け）"
+          class="w-full text-sm border border-gray-200 rounded-xl px-3 py-3 bg-gray-50 focus:bg-white focus:border-orange-300 transition-colors" />
+        <p class="text-xs text-gray-400 mt-1.5">キーはこの端末内のみ保存。外部への送信はGemini APIのみです。</p>
+      </div>
+
+      <!-- モデル選択 -->
+      <div>
+        <label for="modelSelect" class="text-xs text-gray-500 mb-1.5 block">AIモデル</label>
         <select id="modelSelect" class="w-full text-sm border border-gray-200 rounded-xl px-3 py-3 bg-gray-50">
-          <option value="gemini-2.5-flash">Gemini 2.5 Flash（推奨・無料枠あり）</option>
+          <option value="gemini-2.5-flash">Gemini 2.5 Flash（推奨・よく使われる）</option>
           <option value="gemini-2.0-flash">Gemini 2.0 Flash（高速）</option>
         </select>
       </div>
+
       <button id="saveSettings"
         class="w-full py-3 bg-orange-500 text-white text-sm font-semibold rounded-xl active:bg-orange-600 transition-colors">
         保存する
@@ -530,9 +559,6 @@
           '<p class="text-sm text-gray-500">タップして話す</p>';
 
       } catch (e) {
-        setLoading(false);
-        document.getElementById('micStatus').innerHTML =
-          '<p class="text-sm text-gray-500">タップして話す</p>';
         if (e.message.includes('401') || e.message.includes('Incorrect API key')) {
           showToast('APIキーが無効です。設定を確認してください');
           document.getElementById('settingsPanel').classList.remove('hidden');
@@ -541,6 +567,11 @@
         } else {
           showToast(e.message);
         }
+      } finally {
+        // 成功・失敗どちらの場合も必ずローディングを解除する
+        setLoading(false);
+        document.getElementById('micStatus').innerHTML =
+          '<p class="text-sm text-gray-500">タップして話す</p>';
       }
     }
 

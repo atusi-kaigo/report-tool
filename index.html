@@ -495,7 +495,7 @@
 
       try {
         const model = getModel();
-        const res = await fetch(https://generativelanguage.googleapis.com/v1beta/models/:generateContent?key=, {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -505,7 +505,16 @@
           })
         });
 
-                let parsed;
+        if (!res.ok) {
+          const errBody = await res.json().catch(() => ({}));
+          throw new Error(errBody.error?.message || `APIエラー ${res.status}`);
+        }
+
+        const data = await res.json();
+        const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!raw) throw new Error('レスポンスが空です');
+
+        let parsed;
         try {
           parsed = JSON.parse(raw);
         } catch {
